@@ -8,6 +8,25 @@ let generateBtn = document.querySelector("#generate");
 // return password
 //   return "turtle"; // if turtle is a password
 
+function generatePassword(lowercase, uppercase, number, special, length) {
+  let characters = [
+    [ "a", "b", "c" ],
+    [ "A", "B", "C" ],
+    [ "0", "1", "2" ],
+    [ "!", "@", "#" ]
+  ]
+
+  if (!lowercase) {
+    characters.splice(0, 1);
+  }
+  else if (!uppercase) {
+    characters.splice(1, 1);
+  }
+
+
+  arr[Math.round(Math.random() * characters.length)];
+}
+
 function getInput(criteria) {
   while (true) {
     let input = prompt(`Do you want your password to have ${criteria}? y/n`);
@@ -41,7 +60,7 @@ let length = getLength();
 
 // Write password to the #password input
 function writePassword() {
-  let password = generatePassword();
+  let password = generatePassword(lowercase, uppercase, number, special, length);
   let passwordText = document.querySelector("#password");
 
   passwordText.value = password;
