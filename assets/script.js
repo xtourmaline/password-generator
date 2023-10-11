@@ -61,14 +61,38 @@ function generatePassword(lowercase, uppercase, number, special, length) {
   for (let i = 0; i < length; i++) { 
     let criteriaList = listOfCharacters[index];
     let character = criteriaList[Math.round(Math.random() * (criteriaList.length - 1))];
+    password += character
 
     if (i === Math.floor(length/2)) {
-
+      if (lowercaseCount == 0) {
+        criteriaList = listOfCharacters[lowercaseIndex]
+        character = criteriaList[Math.round(Math.random() * (criteriaList.length - 1))]
+        password += character
+        i++;
+      }
+      if (uppercaseCount == 0) {
+        criteriaList = listOfCharacters[uppercaseIndex]
+        character = criteriaList[Math.round(Math.random() * (criteriaList.length - 1))]
+        password += character
+        i++
+      }
+      if (numberCount == 0) {
+        criteriaList = listOfCharacters[numberIndex]
+        character = criteriaList[Math.round(Math.random() * (criteriaList.length - 1))]
+        password += character
+        i++
+      }
+      if (specialCount == 0) {
+        criteriaList = listOfCharacters[specialIndex]
+        character = criteriaList[Math.round(Math.random() * (criteriaList.length - 1))]
+        password += character
+        i++
+      }
     }
   }
   
 
-  console.log(lowercaseCount, uppercaseCount, numberCount, specialCount, character);
+  return password;
 }
 
 function getInput(criteria) {
