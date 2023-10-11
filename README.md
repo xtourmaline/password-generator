@@ -11,7 +11,6 @@ Check out the generator here: https://xtourmaline.github.io/password-generator
 - [Installation](#installation)
 - [Photos](#photos)
 - [Credits](#credits)
-- [License](#license)
 
 ## Installation
 
