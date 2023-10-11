@@ -9,22 +9,66 @@ let generateBtn = document.querySelector("#generate");
 //   return "turtle"; // if turtle is a password
 
 function generatePassword(lowercase, uppercase, number, special, length) {
-  let characters = [
-    [ "a", "b", "c" ],
-    [ "A", "B", "C" ],
-    [ "0", "1", "2" ],
-    [ "!", "@", "#" ]
-  ]
+  let listOfCharacters = [];
 
-  if (!lowercase) {
-    characters.splice(0, 1);
+  let lowercaseIndex = -1;
+  let lowercaseCount = -1;
+
+  let uppercaseIndex = -1;
+  let uppercaseCount = -1;
+
+  let numberIndex = -1;
+  let numberCount = -1;
+
+  let specialIndex = -1;
+  let specialCount = -1;
+
+  if (lowercase == true) {
+    lowercaseCount = 0;
+    lowercaseIndex = listOfCharacters.length;
+    listOfCharacters.push("abcdefghijklmnopqrstuvwxyz".split(""));
   }
-  else if (!uppercase) {
-    characters.splice(1, 1);
+  if (uppercase == true) {
+    uppercaseCount = 0;
+    uppercaseIndex = listOfCharacters.length;
+    listOfCharacters.push("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""));
+  }
+  if (number == true) {
+    numberCount = 0;
+    numberIndex = listOfCharacters.length;
+    listOfCharacters.push("0123456789".split(""));
+  }
+  if (special == true) {
+    specialCount = 0;
+    specialIndex = listOfCharacters.length;
+    listOfCharacters.push("!@#$%^&*()".split(""));
   }
 
+  let index = Math.round(Math.random() * (listOfCharacters.length - 1));
+  
+  if (index == lowercaseIndex) {
+    lowercaseCount++;
+  } else if (index == uppercaseIndex) {
+    uppercaseCount++;
+  } else if (index == numberIndex) {
+    numberCount++;
+  } else {
+    specialCount++;
+  }
+  
+  let password = ""
 
-  arr[Math.round(Math.random() * characters.length)];
+  for (let i = 0; i < length; i++) { 
+    let criteriaList = listOfCharacters[index];
+    let character = criteriaList[Math.round(Math.random() * (criteriaList.length - 1))];
+
+    if (i === Math.floor(length/2)) {
+
+    }
+  }
+  
+
+  console.log(lowercaseCount, uppercaseCount, numberCount, specialCount, character);
 }
 
 function getInput(criteria) {
@@ -52,11 +96,17 @@ function getLength() {
   }
 }
 
-let lowercase = getInput("lowercase letters");
-let uppercase = getInput("uppercase letters");
-let number = getInput("numbers");
-let special = getInput("special characters");
-let length = getLength();
+//let lowercase = getInput("lowercase letters");
+//let uppercase = getInput("uppercase letters");
+//let number = getInput("numbers");
+//let special = getInput("special characters");
+//let length = getLength();
+
+let lowercase = true;
+let uppercase = true;
+let number = true;
+let special = true;
+let length = 10;
 
 // Write password to the #password input
 function writePassword() {
