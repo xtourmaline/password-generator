@@ -1,100 +1,48 @@
 // Assignment Code
 let generateBtn = document.querySelector("#generate");
 
-// create the function here
-// prompt to get the number of characters in password
-// need 4 ifs with 4 confirmExpressionconditionals
-// processing...
-// return password
-//   return "turtle"; // if turtle is a password
+// gets a random character from a string
+function getRandomFromString(string) {
+  return string.charAt(Math.floor(Math.random() * string.length));
+}
 
+// generates password based on given criteria
 function generatePassword(lowercase, uppercase, number, special, length) {
-  let listOfCharacters = [];
+  const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+  const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const numberChars = "0123456789";
+  const specialChars = "!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~";
 
-  let lowercaseIndex = -1;
-  let lowercaseCount = -1;
+  let allChars = "";
+  let password = "";
 
-  let uppercaseIndex = -1;
-  let uppercaseCount = -1;
-
-  let numberIndex = -1;
-  let numberCount = -1;
-
-  let specialIndex = -1;
-  let specialCount = -1;
-
-  if (lowercase == true) {
-    lowercaseCount = 0;
-    lowercaseIndex = listOfCharacters.length;
-    listOfCharacters.push("abcdefghijklmnopqrstuvwxyz".split(""));
+  // force each criteria at least once, not secure but efficient
+  if (lowercase) {
+    password += getRandomFromString(lowercaseChars);
+    allChars += lowercaseChars;
   }
-  if (uppercase == true) {
-    uppercaseCount = 0;
-    uppercaseIndex = listOfCharacters.length;
-    listOfCharacters.push("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""));
+  if (uppercase) {
+    password += getRandomFromString(uppercaseChars);
+    allChars += uppercaseChars;
   }
-  if (number == true) {
-    numberCount = 0;
-    numberIndex = listOfCharacters.length;
-    listOfCharacters.push("0123456789".split(""));
+  if (number) {
+    password += getRandomFromString(numberChars);
+    allChars += numberChars;
   }
-  if (special == true) {
-    specialCount = 0;
-    specialIndex = listOfCharacters.length;
-    listOfCharacters.push("!@#$%^&*()".split(""));
+  if (special) {
+    password += getRandomFromString(specialChars);
+    allChars += specialChars;
   }
 
-  let index = Math.round(Math.random() * (listOfCharacters.length - 1));
-  
-  if (index == lowercaseIndex) {
-    lowercaseCount++;
-  } else if (index == uppercaseIndex) {
-    uppercaseCount++;
-  } else if (index == numberIndex) {
-    numberCount++;
-  } else {
-    specialCount++;
+  // process the rest of the characters and fill up randomly
+  for (let i = password.length; i < length; i++) {
+    password += getRandomFromString(allChars);
   }
-  
-  let password = ""
-
-  for (let i = 0; i < length; i++) { 
-    let criteriaList = listOfCharacters[index];
-    let character = criteriaList[Math.round(Math.random() * (criteriaList.length - 1))];
-    password += character
-
-    if (i === Math.floor(length/2)) {
-      if (lowercaseCount == 0) {
-        criteriaList = listOfCharacters[lowercaseIndex]
-        character = criteriaList[Math.round(Math.random() * (criteriaList.length - 1))]
-        password += character
-        i++;
-      }
-      if (uppercaseCount == 0) {
-        criteriaList = listOfCharacters[uppercaseIndex]
-        character = criteriaList[Math.round(Math.random() * (criteriaList.length - 1))]
-        password += character
-        i++
-      }
-      if (numberCount == 0) {
-        criteriaList = listOfCharacters[numberIndex]
-        character = criteriaList[Math.round(Math.random() * (criteriaList.length - 1))]
-        password += character
-        i++
-      }
-      if (specialCount == 0) {
-        criteriaList = listOfCharacters[specialIndex]
-        character = criteriaList[Math.round(Math.random() * (criteriaList.length - 1))]
-        password += character
-        i++
-      }
-    }
-  }
-  
 
   return password;
 }
 
+// loops until valid input is given for criteria
 function getInput(criteria) {
   while (true) {
     let input = prompt(`Do you want your password to have ${criteria}? y/n`);
@@ -109,6 +57,7 @@ function getInput(criteria) {
   }
 }
 
+// asks user length of password
 function getLength() {
   while (true) {
     let input = Number(prompt("What length to you want your password? (between 8 and 128)"));
@@ -120,46 +69,30 @@ function getLength() {
   }
 }
 
-//let lowercase = getInput("lowercase letters");
-//let uppercase = getInput("uppercase letters");
-//let number = getInput("numbers");
-//let special = getInput("special characters");
-//let length = getLength();
-
-let lowercase = true;
-let uppercase = true;
-let number = true;
-let special = true;
-let length = 10;
-
 // Write password to the #password input
 function writePassword() {
+  let length = getLength();
+
+  let lowercase, uppercase, number, special;
+
+  while (true) {
+    lowercase = getInput("lowercase letters");
+    uppercase = getInput("uppercase letters");
+    number = getInput("numeric characters");
+    special = getInput("special characters");
+
+    if (lowercase == false && uppercase == false && number == false && special == false) {
+      alert("Must select at least ONE criteria (you selected none)");
+    } else {
+      break;
+    }
+  }
+  
   let password = generatePassword(lowercase, uppercase, number, special, length);
   let passwordText = document.querySelector("#password");
 
   passwordText.value = password;
-
 }
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
-
-
-
-`
-GIVEN I need a new, secure password
-WHEN I click the button to generate a password
-THEN I am presented with a series of prompts for password criteria
-WHEN prompted for password criteria
-THEN I select which criteria to include in the password
-WHEN prompted for the length of the password
-THEN I choose a length of at least 8 characters and no more than 128 characters
-WHEN asked for character types to include in the password
-THEN I confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
-WHEN I answer each prompt
-THEN my input should be validated and at least one character type should be selected
-WHEN all prompts are answered
-THEN a password is generated that matches the selected criteria
-WHEN the password is generated
-THEN the password is either displayed in an alert or written to the page
-`
